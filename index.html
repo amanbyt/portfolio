@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aman Kumar Singh — 3D Portfolio | Data Analyst & Engineer</title>
+  <meta name="description" content="3D Interactive Portfolio of Aman Kumar Singh — Data Analyst, Data Engineer, Software Engineer. Specializing in Python, SQL, Snowflake, AWS, React/TypeScript, and Power BI." />
+  
+  <!-- Favicon / Tab Icon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <!-- Google Fonts: Syne, Outfit, DM Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Three.js and GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+  <!-- WebGL 3D Background Canvas -->
+  <div id="canvas-container" aria-hidden="true">
+    <canvas id="webgl-canvas"></canvas>
+  </div>
+  <div id="webglFallback" class="webgl-fallback" role="status">
+    Interactive background unavailable — the portfolio remains fully accessible.
+  </div>
+
+  <!-- Cyber Grid Background & Ambient Lighting -->
+  <div class="cyber-grid" aria-hidden="true"></div>
+  <div class="vignette-overlay" aria-hidden="true"></div>
+  <div class="radial-glow glow-1" aria-hidden="true"></div>
+  <div class="radial-glow glow-2" aria-hidden="true"></div>
+
+  <!-- 3D HUD Navigation -->
+  <header class="hud-header">
+    <nav class="hud-nav">
+      <a href="#hero" class="nav-brand" aria-label="Aman Kumar Singh Homepage">
+        <span class="brand-badge">AKS</span>
+      </a>
+
+      <div class="nav-menu" id="navMenu" aria-label="Primary navigation">
+        <a href="#about" class="nav-link"><span class="nav-index">01.</span>About</a>
+        <a href="#experience" class="nav-link"><span class="nav-index">02.</span>Experience</a>
+        <a href="#skills" class="nav-link"><span class="nav-index">03.</span>Skills</a>
+        <a href="#projects" class="nav-link"><span class="nav-index">04.</span>Projects</a>
+        <a href="#certifications" class="nav-link"><span class="nav-index">05.</span>Certifications</a>
+
+      </div>
+
+      <div class="hud-actions">
+        <!-- 3D Scene Preset Switcher -->
+        <div class="scene-mode-dropdown">
+          <button id="sceneModeBtn" class="hud-btn" title="Toggle 3D Hologram Mode">
+            <span class="icon">🌐</span>
+            <span class="btn-text">3D: <strong id="currentSceneMode">Cyber Constellation</strong></span>
+          </button>
+        </div>
+
+        <!-- Audio FX Toggle -->
+        <button id="audioToggleBtn" class="hud-btn hud-icon-btn" title="Audio FX Muted (Click to Enable)" aria-label="Audio FX Muted (Click to Enable)">
+          <span id="audioIcon">🔇</span>
+        </button>
+
+        <!-- Resume / Direct Contact CTA -->
+        <a href="#contact" class="btn btn-primary btn-sm">Get In Touch</a>
+
+        <!-- Mobile Toggle Button -->
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Open navigation menu" aria-controls="navMenu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Scrollable Content -->
+  <main>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="section hero-section">
+      <div class="container hero-container">
+
+        <!-- Left Column: Identity & CTA -->
+        <div class="hero-content">
+          
+          <div class="status-chip tilt-target">
+            <span class="pulse-beacon"></span>
+            <span class="status-chip-text">Available for Opportunities · Bengaluru, India</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="title-sub">Hello, I'm</span>
+            <span class="title-main">Aman Kumar <span class="gradient-text">Singh</span></span>
+          </h1>
+
+          <div class="hero-roles">
+            <span class="role-tag">Data Analyst</span>
+            <span class="role-divider">/</span>
+            <span class="role-tag">Data Engineer</span>
+            <span class="role-divider">/</span>
+            <span class="role-tag">Software Engineer</span>
+          </div>
+
+          <p class="hero-description">
+            MBA in Business Analytics graduate who recently completed a Data &amp; Software
+            Engineering internship at <strong>RegEdge</strong>, building full-stack internal tools, Snowflake data
+            pipelines, and BI dashboards in a production FinTech environment. Proficient in
+            <strong>Python, SQL, Snowflake, AWS, React/TypeScript, and Power BI</strong>.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#projects" class="btn btn-primary">
+              <span>Explore My Work</span>
+              <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#contact" class="btn btn-outline">
+              <span>Initiate Contact</span>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Telemetry Radar Widget -->
+        <div class="hero-3d-hud">
+          <div class="hud-box tilt-card" data-tilt>
+            <div class="hud-box-header">
+              <span class="hud-pill">SKILL RADAR</span>
+              <span class="hud-status">ACTIVE</span>
+            </div>
+            <div class="hud-radar" id="skillRadar">
+              <div class="radar-sweep"></div>
+              <div class="radar-circle rc-1"></div>
+              <div class="radar-circle rc-2"></div>
+              <div class="radar-cross"></div>
+              <!-- Blips injected by JS based on skills + certs count -->
+            </div>
+            <div class="hud-telemetry-lines">
+              <div class="tel-line"><span>TOOLS</span><strong class="tel-val" id="telTools">—</strong></div>
+              <div class="tel-line"><span>CERTIFICATIONS</span><strong class="tel-val" id="telCerts">—</strong></div>
+              <div class="tel-line"><span>PROJECTS</span><strong class="tel-val" id="telProjects">—</strong></div>
+              <div class="tel-line"><span>LOCATION</span><strong class="tel-val">BENGALURU, INDIA</strong></div>
+            </div>
+            <div class="hud-footer-indicator">
+              <span class="bar-pulse"></span>
+              <span id="telStatus">LOADING HIGHLIGHTS...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full-Width Stats Row -->
+        <div class="stats-matrix">
+          <div class="stat-card tilt-card" data-tilt>
+            <div class="stat-icon-wrap">🚀</div>
+            <div class="stat-meta">
+              <span class="stat-value" data-count="3">3</span>
+              <span class="stat-label">Key Production Projects</span>
+            </div>
+          </div>
+          <div class="stat-card tilt-card" data-tilt>
+            <div class="stat-icon-wrap">🏆</div>
+            <div class="stat-meta">
+              <span class="stat-value" data-count="6">6</span>
+              <span class="stat-label">Certifications &amp; Workshops</span>
+            </div>
+          </div>
+          <div class="stat-card tilt-card" data-tilt>
+            <div class="stat-icon-wrap">⚡</div>
+            <div class="stat-meta">
+              <span class="stat-value">3mo</span>
+              <span class="stat-label">FinTech Internship</span>
+            </div>
+          </div>
+          <div class="stat-card tilt-card" data-tilt>
+            <div class="stat-icon-wrap">🎓</div>
+            <div class="stat-meta">
+              <span class="stat-value">MBA</span>
+              <span class="stat-label">Business Analytics</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="section about-section">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-badge">// 01. PROFILE OVERVIEW</span>
+          <h2 class="section-heading">Turning Raw Data Into <span class="gradient-text">Decisive Impact</span></h2>
+          <p class="section-subheading">Engineering bridges between complex data warehouses, cloud infrastructure, and human-centric software applications.</p>
+        </div>
+
+        <div class="about-grid">
+          
+          <!-- Bio card -->
+          <div class="about-card tilt-card" data-tilt>
+            <div class="card-glow"></div>
+            <h3 class="card-title">Engineering Mindset &amp; Analytics Foundation</h3>
+            
+            <p class="paragraph">
+              I'm <strong>Aman Kumar Singh</strong> — I recently completed a Data &amp; Software
+              Engineering internship at <strong>RegEdge</strong>, where I built full-stack internal tools, Snowflake data
+              pipelines, and BI dashboards in a fast-paced, production FinTech environment.
+            </p>
+            <p class="paragraph">
+              I operate comfortably across the modern data stack — seamlessly connecting <strong>Python, SQL, Snowflake, AWS, React/TypeScript, and Power BI</strong> — to build scalable, resilient data solutions ranging from role-based internal HR platforms to complex regulatory reporting pipelines.
+            </p>
+            <p class="paragraph">
+              I recently completed an <strong>MBA in Business Analytics</strong> at Dev Bhoomi
+              Uttarakhand University, Dehradun, built on top of an undergraduate degree in <strong>Accounting &amp; Computer Science</strong>. Based in <strong>Bengaluru, India</strong>, I am actively seeking high-impact roles in Data Analytics, Data Engineering, or Software Engineering.
+            </p>
+
+            <div class="about-highlights">
+              <div class="highlight-item">
+                <span class="hi-icon">📍</span>
+                <div class="hi-info">
+                  <span class="hi-label">Current Base</span>
+                  <strong class="hi-val">Bengaluru, India</strong>
+                </div>
+              </div>
+              <div class="highlight-item">
+                <span class="hi-icon">🎓</span>
+                <div class="hi-info">
+                  <span class="hi-label">Education</span>
+                  <strong class="hi-val">MBA in Business Analytics</strong>
+                </div>
+              </div>
+              <div class="highlight-item">
+                <span class="hi-icon">💼</span>
+                <div class="hi-info">
+                  <span class="hi-label">Internship</span>
+                  <strong class="hi-val">RegEdge (FinTech / RegTech)</strong>
+                </div>
+              </div>
+              <div class="highlight-item">
+                <span class="hi-icon">🎯</span>
+                <div class="hi-info">
+                  <span class="hi-label">Target Roles</span>
+                  <strong class="hi-val">Data Analyst / Engineer / SDE</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-action">
+              <a href="#contact" class="btn btn-outline btn-sm">Let's Connect</a>
+            </div>
+          </div>
+
+          <!-- Technical Skills Breakdown -->
+          <div class="skills-card tilt-card" data-tilt>
+            <div class="card-glow"></div>
+            <div class="card-header-flex">
+              <h3 class="card-title">Technical Domain Capabilities</h3>
+              <span class="skill-indicator-tag">VERIFIED</span>
+            </div>
+
+            <div class="domain-list">
+
+              <div class="domain-item">
+                <div class="domain-header">
+                  <span class="domain-icon">💻</span>
+                  <span class="domain-name">Languages</span>
+                  <span class="domain-level">Core Stack</span>
+                </div>
+                <div class="domain-body">
+                  <div class="domain-tags">
+                    <span class="dtag">Python</span>
+                    <span class="dtag">SQL</span>
+                    <span class="dtag">R</span>
+                    <span class="dtag">JavaScript</span>
+                    <span class="dtag">TypeScript</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="domain-item">
+                <div class="domain-header">
+                  <span class="domain-icon">☁️</span>
+                  <span class="domain-name">Cloud &amp; DevOps</span>
+                  <span class="domain-level">Production</span>
+                </div>
+                <div class="domain-body">
+                  <div class="domain-tags">
+                    <span class="dtag">AWS (ECS)</span>
+                    <span class="dtag">AWS (EC2)</span>
+                    <span class="dtag">AWS (SSM)</span>
+                    <span class="dtag">Docker</span>
+                    <span class="dtag">Docker Compose</span>
+                    <span class="dtag">GitHub</span>
+                    <span class="dtag">VS Code</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="domain-item">
+                <div class="domain-header">
+                  <span class="domain-icon">❄️</span>
+                  <span class="domain-name">Data Warehousing</span>
+                  <span class="domain-level">Enterprise</span>
+                </div>
+                <div class="domain-body">
+                  <div class="domain-tags">
+                    <span class="dtag">Snowflake DDL/DML</span>
+                    <span class="dtag">Materialized &amp; Calculated Views</span>
+                    <span class="dtag">Data Loading</span>
+                    <span class="dtag">Data Modeling</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="domain-item">
+                <div class="domain-header">
+                  <span class="domain-icon">🗄️</span>
+                  <span class="domain-name">Databases &amp; Backend</span>
+                  <span class="domain-level">Scalable</span>
+                </div>
+                <div class="domain-body">
+                  <div class="domain-tags">
+                    <span class="dtag">Supabase</span>
+                    <span class="dtag">PostgreSQL</span>
+                    <span class="dtag">Relational DBs</span>
+                    <span class="dtag">ETL Pipelines</span>
+                    <span class="dtag">MySQL</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="domain-item">
+                <div class="domain-header">
+                  <span class="domain-icon">📊</span>
+                  <span class="domain-name">BI &amp; Visualization</span>
+                  <span class="domain-level">Advanced</span>
+                </div>
+                <div class="domain-body">
+                  <div class="domain-tags">
+                    <span class="dtag">Power BI</span>
+                    <span class="dtag">DAX Measures</span>
+                    <span class="dtag">Tableau</span>
+                    <span class="dtag">Advanced Excel</span>
+                    <span class="dtag">Pivot Tables</span>
+                    <span class="dtag">XLOOKUP / INDEX-MATCH</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="domain-item">
+                <div class="domain-header">
+                  <span class="domain-icon">🧠</span>
+                  <span class="domain-name">Data Analytics &amp; Modeling</span>
+                  <span class="domain-level">Methodology</span>
+                </div>
+                <div class="domain-body">
+                  <div class="domain-tags">
+                    <span class="dtag">Exploratory Data Analysis (EDA)</span>
+                    <span class="dtag">Data Cleaning &amp; Transformation</span>
+                    <span class="dtag">Statistical Analysis</span>
+                    <span class="dtag">KPI Development</span>
+                    <span class="dtag">Google Colab</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- EXPERIENCE SECTION -->
+    <section id="experience" class="section experience-section">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-badge">// 02. INDUSTRY TRACK RECORD</span>
+          <h2 class="section-heading">Professional <span class="gradient-text">Experience</span></h2>
+          <p class="section-subheading">Delivering production-grade engineering in regulated financial technology environments.</p>
+        </div>
+
+        <div class="experience-timeline">
+          <div class="exp-card tilt-card" data-tilt>
+            <div class="exp-corner-accent"></div>
+            
+            <div class="exp-meta-header">
+              <div class="exp-badge">
+                <span class="badge-dot"></span>
+                <span>COMPLETED INTERNSHIP</span>
+              </div>
+              <span class="exp-period">JUNE 2026 – AUGUST 2026</span>
+            </div>
+
+            <div class="exp-title-row">
+              <div>
+                <h3 class="exp-role">Software Engineering &amp; Data Intern</h3>
+                <h4 class="exp-company">RegEdge (FinTech / RegTech) <span class="exp-location">· Bengaluru, India</span></h4>
+              </div>
+              <div class="exp-logo-seal">REGEDGE</div>
+            </div>
+
+            <p class="exp-summary">
+              Collaborated directly with engineering leadership to build production internal software, engineer automated Snowflake data warehouse pipelines, and orchestrate cloud services for fintech regulatory analytics.
+            </p>
+
+            <ul class="exp-bullet-list">
+              <li>
+                <div class="bullet-marker">▸</div>
+                <div class="bullet-content">
+                  <strong>Full-Stack Internal HR Portal:</strong> Architected and built a complete enterprise HR Portal from the ground up using <strong>React 19, TypeScript, TanStack, and Tailwind CSS v4</strong>. Implemented robust Role-Based Access Control (RBAC), relational database schemas, and six dedicated workflow modules actively utilized across the engineering organization.
+                </div>
+              </li>
+              <li>
+                <div class="bullet-marker">▸</div>
+                <div class="bullet-content">
+                  <strong>Snowflake Data Engineering:</strong> Engineered end-to-end Snowflake data pipelines: ingested and normalized complex raw financial product hierarchy records, then authored consolidated and calculated analytical views to power downstream queries and dashboards.
+                </div>
+              </li>
+              <li>
+                <div class="bullet-marker">▸</div>
+                <div class="bullet-content">
+                  <strong>AWS Cloud &amp; Multi-Service DevOps:</strong> Managed cloud infrastructure on <strong>AWS (ECS, EC2, SSM)</strong> and coordinated a unified multi-service local development stack (secure tunnel + Docker Compose + frontend) to provide zero-drift stability across the distributed engineering team.
+                </div>
+              </li>
+              <li>
+                <div class="bullet-marker">▸</div>
+                <div class="bullet-content">
+                  <strong>Git Workflow &amp; Code Quality:</strong> Streamlined engineering delivery via structured GitHub branch conventions and thorough pull request code reviews, raising codebase quality and accelerating team sprint velocity.
+                </div>
+              </li>
+            </ul>
+
+            <div class="exp-tech-chips">
+              <span class="tech-chip">React 19</span>
+              <span class="tech-chip">TypeScript</span>
+              <span class="tech-chip">Snowflake</span>
+              <span class="tech-chip">AWS (ECS / EC2)</span>
+              <span class="tech-chip">Docker Compose</span>
+              <span class="tech-chip">TanStack</span>
+              <span class="tech-chip">Tailwind CSS v4</span>
+              <span class="tech-chip">RBAC Security</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SKILLS / TOOLS SECTION -->
+    <section id="skills" class="section tools-section">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-badge">// 03. TOOLKIT MATRIX</span>
+          <h2 class="section-heading">Technologies &amp; <span class="gradient-text">Tools I Wield</span></h2>
+          <p class="section-subheading">Hover over cards to view interactive 3D physics and telemetry tags.</p>
+        </div>
+
+        <div class="tools-3d-grid">
+          
+          <!-- Tool 1 -->
+          <div class="tool-3d-card tilt-card" data-tilt data-tool="python">
+            <div class="card-specular"></div>
+            <div class="tool-icon-wrapper"><span class="tool-emoji">🐍</span></div>
+            <h3 class="tool-title">Python</h3>
+            <p class="tool-sub">Data Analysis &amp; Scripting</p>
+            <div class="tool-pills">
+              <span class="tpill">Data Analysis</span>
+              <span class="tpill">Google Colab</span>
+              <span class="tpill">Pandas</span>
+            </div>
+          </div>
+
+          <!-- Tool 2 -->
+          <div class="tool-3d-card tilt-card" data-tilt data-tool="snowflake">
+            <div class="card-specular"></div>
+            <div class="tool-icon-wrapper"><span class="tool-emoji">❄️</span></div>
+            <h3 class="tool-title">Snowflake</h3>
+            <p class="tool-sub">Cloud Data Warehouse</p>
+            <div class="tool-pills">
+              <span class="tpill">DDL / DML</span>
+              <span class="tpill">Analytical Views</span>
+              <span class="tpill">Data Modeling</span>
+            </div>
+          </div>
+
+          <!-- Tool 3 -->
+          <div class="tool-3d-card tilt-card" data-tilt data-tool="aws">
+            <div class="card-specular"></div>
+            <div class="tool-icon-wrapper"><span class="tool-emoji">☁️</span></div>
+            <h3 class="tool-title">AWS</h3>
+            <p class="tool-sub">Cloud Infrastructure</p>
+            <div class="tool-pills">
+              <span class="tpill">ECS</span>
+              <span class="tpill">EC2</span>
+              <span class="tpill">SSM Agent</span>
+            </div>
+          </div>
+
+          <!-- Tool 4 -->
+          <div class="tool-3d-card tilt-card" data-tilt data-tool="react">
+            <div class="card-specular"></div>
+            <div class="tool-icon-wrapper"><span class="tool-emoji">⚛️</span></div>
+            <h3 class="tool-title">React / TypeScript</h3>
+            <p class="tool-sub">Modern Web Frontend</p>
+            <div class="tool-pills">
+              <span class="tpill">TanStack</span>
+              <span class="tpill">Tailwind CSS</span>
+              <span class="tpill">React 19</span>
+            </div>
+          </div>
+
+          <!-- Tool 5 -->
+          <div class="tool-3d-card tilt-card" data-tilt data-tool="powerbi">
+            <div class="card-specular"></div>
+            <div class="tool-icon-wrapper"><span class="tool-emoji">⚡</span></div>
+            <h3 class="tool-title">Power BI</h3>
+            <p class="tool-sub">Business Intelligence</p>
+            <div class="tool-pills">
+              <span class="tpill">DAX Formulas</span>
+              <span class="tpill">Data Modeling</span>
+              <span class="tpill">Executive Dashboards</span>
+            </div>
+          </div>
+
+          <!-- Tool 6 -->
+          <div class="tool-3d-card tilt-card" data-tilt data-tool="supabase">
+            <div class="card-specular"></div>
+            <div class="tool-icon-wrapper"><span class="tool-emoji">🗄️</span></div>
+            <h3 class="tool-title">Supabase</h3>
+            <p class="tool-sub">Postgres Database &amp; Auth</p>
+            <div class="tool-pills">
+              <span class="tpill">PostgreSQL</span>
+              <span class="tpill">ETL Pipelines</span>
+              <span class="tpill">Row Level Security</span>
+            </div>
+          </div>
+
+          <!-- Tool 7 -->
+          <div class="tool-3d-card tilt-card" data-tilt data-tool="docker">
+            <div class="card-specular"></div>
+            <div class="tool-icon-wrapper"><span class="tool-emoji">🐳</span></div>
+            <h3 class="tool-title">Docker</h3>
+            <p class="tool-sub">Containerization</p>
+            <div class="tool-pills">
+              <span class="tpill">Docker Compose</span>
+              <span class="tpill">Dev Environments</span>
+              <span class="tpill">Microservices</span>
+            </div>
+          </div>
+
+          <!-- Tool 8 -->
+          <div class="tool-3d-card tilt-card" data-tilt data-tool="github">
+            <div class="card-specular"></div>
+            <div class="tool-icon-wrapper"><span class="tool-emoji">🐙</span></div>
+            <h3 class="tool-title">GitHub</h3>
+            <p class="tool-sub">Version Control &amp; Review</p>
+            <div class="tool-pills">
+              <span class="tpill">Branching Strategy</span>
+              <span class="tpill">Code Review</span>
+              <span class="tpill">Collaboration</span>
+            </div>
+          </div>
+
+          <!-- Tool 9 -->
+          <div class="tool-3d-card tilt-card" data-tilt data-tool="mysql">
+            <div class="card-specular"></div>
+            <div class="tool-icon-wrapper"><span class="tool-emoji">🐬</span></div>
+            <h3 class="tool-title">MySQL</h3>
+            <p class="tool-sub">Relational Databases</p>
+            <div class="tool-pills">
+              <span class="tpill">Complex Joins</span>
+              <span class="tpill">Query Optimization</span>
+              <span class="tpill">Relational Schemas</span>
+            </div>
+          </div>
+
+          <!-- Tool 10 -->
+          <div class="tool-3d-card tilt-card" data-tilt data-tool="excel">
+            <div class="card-specular"></div>
+            <div class="tool-icon-wrapper"><span class="tool-emoji">📊</span></div>
+            <h3 class="tool-title">Advanced Excel</h3>
+            <p class="tool-sub">Spreadsheet Modeling</p>
+            <div class="tool-pills">
+              <span class="tpill">Pivot Tables</span>
+              <span class="tpill">XLOOKUP</span>
+              <span class="tpill">INDEX-MATCH</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects" class="section projects-section">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-badge">// 04. SELECTED INITIATIVES</span>
+          <h2 class="section-heading">Featured <span class="gradient-text">Engineering Projects</span></h2>
+          <p class="section-subheading">Production systems spanning enterprise portals, data warehousing pipelines, and executive BI dashboards.</p>
+        </div>
+
+        <div class="projects-container">
+
+          <!-- FEATURED PROJECT 1: REGEDGE HR PORTAL -->
+          <article class="featured-project-card tilt-card" data-tilt>
+            <div class="feat-badge-banner">
+              <span class="star-icon">★</span>
+              <span>FEATURED PRODUCTION SYSTEM</span>
+            </div>
+
+            <div class="feat-grid">
+              
+              <div class="feat-details">
+                <div class="project-tag-meta">FULL-STACK WEB PLATFORM · 2026</div>
+                <h3 class="feat-title">RegEdge Enterprise HR Portal</h3>
+                
+                <p class="feat-summary">
+                  Designed and built an internal HR platform from scratch — providing the organization with a single, unified home for workforce data and workflows previously fragmented across disconnected tools, replacing an ad-hoc prototype with a robust, production-quality codebase.
+                </p>
+
+                <p class="feat-subtext">
+                  Engineered role-based access control (RBAC), modern accessible components via <strong>shadcn/ui</strong>, and fluid micro-interactions with <strong>Framer Motion</strong>. Delivered methodically across two critical phases: Phase 0 codebase cleanup followed by Phase 1 schema architecture.
+                </p>
+
+                <div class="feat-tags">
+                  <span class="ftag">React 19</span>
+                  <span class="ftag">TypeScript</span>
+                  <span class="ftag">TanStack</span>
+                  <span class="ftag">Tailwind CSS v4</span>
+                  <span class="ftag">Framer Motion</span>
+                  <span class="ftag">RBAC Security</span>
+                </div>
+
+                <div class="feat-actions">
+                  <a href="#experience" class="btn btn-primary btn-sm">Read Internship Context</a>
+                  <a href="#contact" class="btn btn-outline btn-sm">Discuss Implementation</a>
+                </div>
+              </div>
+
+              <!-- Interactive 3D HUD Telemetry Visual for Project 1 -->
+              <div class="feat-visual-hud">
+                <div class="visual-header">
+                  <span class="vh-title">SYSTEM ARCHITECTURE TELEMETRY</span>
+                  <span class="vh-badge">STABLE</span>
+                </div>
+
+                <div class="visual-metrics">
+                  <div class="metric-row">
+                    <span class="m-label">Phase 0 Status</span>
+                    <span class="m-status m-green">Codebase Cleanup ✓</span>
+                  </div>
+                  <div class="metric-row">
+                    <span class="m-label">Phase 1 Status</span>
+                    <span class="m-status m-green">Relational Schema Deployed ✓</span>
+                  </div>
+                  <div class="metric-row">
+                    <span class="m-label">Shipped Workflow Modules</span>
+                    <span class="m-status m-accent">6 Active Modules</span>
+                  </div>
+                </div>
+
+                <div class="progress-container">
+                  <div class="progress-bar-label">
+                    <span>Module Deployment Coverage</span>
+                    <span>100%</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill" style="width: 100%;"></div>
+                  </div>
+                </div>
+
+                <!-- Interactive Pipeline Simulation -->
+                <div class="hud-flow-diagram">
+                  <div class="flow-node">User / RBAC</div>
+                  <div class="flow-arrow">➔</div>
+                  <div class="flow-node">TanStack Router</div>
+                  <div class="flow-arrow">➔</div>
+                  <div class="flow-node highlight">Database API</div>
+                </div>
+
+                <div class="feature-checklist">
+                  <div class="chk-item"><span class="chk-icon">✔</span> Role-Based Access Control (RBAC)</div>
+                  <div class="chk-item"><span class="chk-icon">✔</span> shadcn/ui Component Library</div>
+                  <div class="chk-item"><span class="chk-icon">✔</span> Framer Motion Animation Suite</div>
+                </div>
+              </div>
+
+            </div>
+          </article>
+
+          <!-- SECONDARY PROJECTS GRID -->
+          <div class="secondary-projects-grid">
+            
+            <!-- Project 2 -->
+            <article class="project-item-card tilt-card" data-tilt>
+              <div class="card-glow"></div>
+              <div class="p-card-header">
+                <span class="p-category">DATA ENGINEERING · 2026</span>
+                <span class="p-icon">❄️</span>
+              </div>
+
+              <h3 class="p-title">Snowflake Financial Data Pipeline</h3>
+
+              <p class="p-desc">
+                Loaded and normalized multi-tier financial product hierarchies (encompassing asset classes, sub-classes, instrument classifications, and operational flag columns) into Snowflake. Built consolidated and calculated SQL analytical views to accelerate high-frequency reporting and analytics.
+              </p>
+
+              <!-- Interactive Visual Mini-Flow -->
+              <div class="pipeline-mini-viz">
+                <div class="pm-step"><span>Raw Hierarchy CSV</span></div>
+                <div class="pm-connector"></div>
+                <div class="pm-step active"><span>Snowflake Stage &amp; DDL</span></div>
+                <div class="pm-connector"></div>
+                <div class="pm-step"><span>Analytical Views</span></div>
+              </div>
+
+              <div class="p-tags">
+                <span class="ptag">Snowflake</span>
+                <span class="ptag">SQL</span>
+                <span class="ptag">DDL/DML</span>
+                <span class="ptag">Data Modeling</span>
+                <span class="ptag">Analytical Views</span>
+              </div>
+            </article>
+
+            <!-- Project 3 -->
+            <article class="project-item-card tilt-card" data-tilt>
+              <div class="card-glow"></div>
+              <div class="p-card-header">
+                <span class="p-category">BUSINESS INTELLIGENCE · 2025</span>
+                <span class="p-icon">📊</span>
+              </div>
+
+              <h3 class="p-title">E-Commerce Sales Executive Dashboard</h3>
+
+              <p class="p-desc">
+                Constructed an interactive Power BI business dashboard tracking mission-critical sales KPIs across geographical regions and product categories using 8+ visual chart types, complex DAX-calculated metrics, dynamic multi-level slicers, and drill-through parameters over joined relational tables.
+              </p>
+
+              <!-- Interactive KPI Preview Bar -->
+              <div class="kpi-mini-grid">
+                <div class="kpi-box">
+                  <span class="kpi-val">+24.8%</span>
+                  <span class="kpi-lbl">Revenue Growth</span>
+                </div>
+                <div class="kpi-box">
+                  <span class="kpi-val">8+</span>
+                  <span class="kpi-lbl">DAX Visuals</span>
+                </div>
+                <div class="kpi-box">
+                  <span class="kpi-val">Multi</span>
+                  <span class="kpi-lbl">Drill-Down Slicers</span>
+                </div>
+              </div>
+
+              <div class="p-tags">
+                <span class="ptag">Power BI</span>
+                <span class="ptag">DAX Measures</span>
+                <span class="ptag">Data Modeling</span>
+                <span class="ptag">Drill-Through</span>
+                <span class="ptag">Slicers</span>
+              </div>
+            </article>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS SECTION -->
+    <section id="certifications" class="section certs-section">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-badge">// 05. CREDENTIALS &amp; AUDITS</span>
+          <h2 class="section-heading">Certifications &amp; <span class="gradient-text">Workshops</span></h2>
+          <p class="section-subheading">Verified training credentials across FinTech, Python Data Analytics, SQL, and Power BI Data Modeling.</p>
+        </div>
+
+        <div class="certs-grid">
+          
+          <!-- Cert 1 -->
+          <div class="cert-card tilt-card" data-tilt>
+            <div class="cert-header">
+              <span class="cert-index">01</span>
+              <span class="cert-institution">IIT ROORKEE E-SUMMIT</span>
+            </div>
+            <h3 class="cert-title">Paytm Money Workshop</h3>
+            <p class="cert-desc">
+              Participated in an intensive fintech-focused workshop conducted during E-Summit IIT Roorkee, gaining deep insights into investment platforms, digital finance architectures, and algorithmic decision-making.
+            </p>
+            <div class="cert-footer">
+              <a href="https://certificate.givemycertificate.com/c/7f73fb34-35ad-456c-8682-f961659da09c" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm cert-btn">
+                <span>Verify Credential</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Cert 2 -->
+          <div class="cert-card tilt-card" data-tilt>
+            <div class="cert-header">
+              <span class="cert-index">02</span>
+              <span class="cert-institution">IIT ROORKEE</span>
+            </div>
+            <h3 class="cert-title">Digital Marketing Workshop</h3>
+            <p class="cert-desc">
+              Attended a digital marketing workshop at IIT Roorkee exploring search engine optimization, social media amplification algorithms, and data-driven customer acquisition strategies.
+            </p>
+            <div class="cert-footer">
+              <a href="https://certificate.givemycertificate.com/c/98fd9df4-45fc-4a0a-818f-c3a14e025124" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm cert-btn">
+                <span>Verify Credential</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Cert 3 -->
+          <div class="cert-card tilt-card" data-tilt>
+            <div class="cert-header">
+              <span class="cert-index">03</span>
+              <span class="cert-institution">FILTERCOPY</span>
+            </div>
+            <h3 class="cert-title">Content Creation Workshop</h3>
+            <p class="cert-desc">
+              Learned content creation strategies from industry experts at FilterCopy, focusing on narrative storytelling, digital engagement metrics, and audience communication dynamics.
+            </p>
+            <div class="cert-footer">
+              <a href="https://certificate.givemycertificate.com/c/6614831c-c3d4-4c87-a4be-e3d69e733510" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm cert-btn">
+                <span>Verify Credential</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Cert 4 -->
+          <div class="cert-card tilt-card" data-tilt>
+            <div class="cert-header">
+              <span class="cert-index">04</span>
+              <span class="cert-institution">SIMPLILEARN</span>
+            </div>
+            <h3 class="cert-title">Python for Data Analysis</h3>
+            <p class="cert-desc">
+              Completed rigorous practical training in Python for data science using Pandas and NumPy, specializing in automated data cleaning, schema reshaping, and exploratory analysis.
+            </p>
+            <div class="cert-footer">
+              <a href="https://simpli-web.app.link/e/1TZDU7Cu71b" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm cert-btn">
+                <span>Verify Credential</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Cert 5 -->
+          <div class="cert-card tilt-card" data-tilt>
+            <div class="cert-header">
+              <span class="cert-index">05</span>
+              <span class="cert-institution">SIMPLILEARN</span>
+            </div>
+            <h3 class="cert-title">Introduction to SQL</h3>
+            <p class="cert-desc">
+              Mastered foundational and intermediate SQL concepts including multi-table relational joins, subqueries, grouping, aggregation functions, and performance filtering.
+            </p>
+            <div class="cert-footer">
+              <a href="https://simpli-web.app.link/e/dbL6MyMx71b" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm cert-btn">
+                <span>Verify Credential</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Cert 6 -->
+          <div class="cert-card tilt-card" data-tilt>
+            <div class="cert-header">
+              <span class="cert-index">06</span>
+              <span class="cert-institution">SIMPLILEARN</span>
+            </div>
+            <h3 class="cert-title">Power BI Data Modelling</h3>
+            <p class="cert-desc">
+              Gained hands-on proficiency in Power BI star-schema design, relationship cardinalities, DAX calculated columns and measures, and executive dashboard delivery.
+            </p>
+            <div class="cert-footer">
+              <a href="https://simpli-web.app.link/e/hzZDAqJx71b" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm cert-btn">
+                <span>Verify Credential</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="section contact-section">
+      <div class="container">
+        
+        <div class="section-header">
+          <span class="section-badge">// TRANSMISSION CHANNEL</span>
+          <h2 class="section-heading">Let's Build Something <span class="gradient-text">Exceptional</span></h2>
+          <p class="section-subheading">I'm currently seeking roles in Data Analytics, Data Engineering, and Software Engineering.</p>
+        </div>
+
+        <div class="contact-grid">
+          
+          <!-- Contact Direct Channels -->
+          <div class="contact-info-card tilt-card" data-tilt>
+            <h3 class="c-title">Direct Communication</h3>
+            <p class="c-desc">
+              Whether you are looking to strengthen your data analytics pipelines, deploy cloud infrastructure on AWS/Snowflake, or build modern full-stack web applications — my inbox is always open.
+            </p>
+
+            <div class="contact-links-list">
+              
+              <a href="mailto:amansingh.2135@gmail.com" class="c-link-box" id="emailContactLink">
+                <div class="c-icon-circle">✉️</div>
+                <div class="c-details">
+                  <span class="c-label">Direct Email</span>
+                  <span class="c-value">amansingh.2135@gmail.com</span>
+                </div>
+                <span class="c-arrow">→</span>
+              </a>
+
+              <a href="https://www.linkedin.com/in/aman-s02" target="_blank" rel="noopener noreferrer" class="c-link-box" id="linkedinContactLink">
+                <div class="c-icon-circle">💼</div>
+                <div class="c-details">
+                  <span class="c-label">LinkedIn Profile</span>
+                  <span class="c-value">linkedin.com/in/aman-s02</span>
+                </div>
+                <span class="c-arrow">→</span>
+              </a>
+
+              <div class="c-link-box static-box">
+                <div class="c-icon-circle">📍</div>
+                <div class="c-details">
+                  <span class="c-label">Location Availability</span>
+                  <span class="c-value">Bengaluru, India (Open to Relocation / Remote)</span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="quick-status-block">
+              <span class="pulse-indicator"></span>
+              <span>Available for immediate interviews &amp; full-time opportunities.</span>
+            </div>
+          </div>
+
+          <!-- Interactive Message Transmission Form -->
+          <div class="contact-form-card tilt-card" data-tilt>
+            <h3 class="c-title">Transmit a Message</h3>
+            
+            <form id="contactForm" class="cyber-form">
+              <div class="form-group">
+                <label for="formName" class="form-label">Your Name</label>
+                <input type="text" id="formName" class="form-input" placeholder="e.g. Sarah Connor" required />
+              </div>
+
+              <div class="form-group">
+                <label for="formEmail" class="form-label">Your Email</label>
+                <input type="email" id="formEmail" class="form-input" placeholder="e.g. sarah@company.com" required />
+              </div>
+
+              <div class="form-group">
+                <label for="formSubject" class="form-label">Subject / Role Opportunity</label>
+                <input type="text" id="formSubject" class="form-input" placeholder="e.g. Data Analyst Opportunity" required />
+              </div>
+
+              <div class="form-group">
+                <label for="formMessage" class="form-label">Message</label>
+                <textarea id="formMessage" rows="4" class="form-input form-textarea" placeholder="Hello Aman, we'd like to discuss an opportunity..." required></textarea>
+              </div>
+
+              <button type="submit" id="submitFormBtn" class="btn btn-primary btn-block" aria-describedby="contactFormNote">
+                <span>Open Email Draft →</span>
+              </button>
+
+              <p id="contactFormNote" class="form-helper">Opens your email app with this message prefilled.</p>
+
+              <div id="formFeedback" class="form-feedback" aria-live="polite"></div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 3D FOOTER -->
+  <footer class="hud-footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <span class="footer-logo">AKS</span>
+        <p class="footer-copy">© 2026 <strong>Aman Kumar Singh</strong> · Data Analyst &amp; Software Engineer</p>
+      </div>
+
+      <div class="footer-right">
+        <a href="#hero" class="back-to-top" title="Back to top">
+          <span>Back to Top</span>
+          <span class="up-arrow">↑</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="three-scene.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
