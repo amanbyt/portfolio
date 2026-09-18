@@ -96,7 +96,7 @@ Targets modern evergreen browsers (Chrome, Edge, Firefox, Safari). The 3D backgr
 **Aman Kumar Singh**
 - Email: [amansingh.2135@gmail.com](mailto:amansingh.2135@gmail.com)
 - LinkedIn: [linkedin.com/in/aman-s02](https://www.linkedin.com/in/aman-s02)
-- Location: Bengaluru, India (open to relocation / remote)
+- Location: India (open to relocation / remote)
 
 ---
 
